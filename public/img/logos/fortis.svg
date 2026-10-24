@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 176 48" role="img" aria-label="Fortis">
+  <circle cx="15" cy="7" r="4.5" fill="#E31E24"/>
+  <path d="M14 14c-6 7-9 16-9 26h6c0-9 3-16 9-21Z" fill="#009639"/>
+  <path d="M17 14c6 7 9 16 9 26h-6c0-9-3-16-9-21Z" fill="#00B140"/>
+  <text x="34" y="34" font-family="Arial, Helvetica, sans-serif" font-size="29" font-weight="700" fill="#009639">Fortis</text>
+</svg>

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CareBridge: Medical travel from Bangladesh to India</title>
+<meta name="description" content="End-to-end medical travel facilitation for Bangladeshi patients. Free medical opinions, written cost estimates, visa support and 24/7 care coordinators at India's top accredited hospitals." />
+<link rel="icon" href="/favicon.png" type="image/png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&family=Roboto:wght@400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+<div id="root"></div>
+<!-- Static copy of the consultation form so Netlify detects it at deploy time.
+     The visible forms (modal + contact page) post to this form-name via fetch. -->
+<form name="consultation" data-netlify="true" netlify-honeypot="company" style="display:none" aria-hidden="true">
+  <input name="company" />
+  <input name="name" />
+  <input name="phone" />
+  <input name="email" />
+  <select name="treatment"></select>
+  <textarea name="message"></textarea>
+</form>
+<script type="module" src="/src/main.jsx"></script>
+</body>
+</html>
