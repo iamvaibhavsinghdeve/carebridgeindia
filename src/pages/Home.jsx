@@ -3,6 +3,7 @@ import { SITE } from '../data/content.js';
 import { usePageMeta } from '../lib/util.js';
 import { useModal } from '../lib/modal.js';
 import { L, HOSP_LOGOS } from '../components/Ui.jsx';
+import LineDrop from '../components/LineDrop.jsx';
 import Icon from '../components/Icon.jsx';
 
 const STEP_DESC = {
@@ -21,17 +22,36 @@ const STEP_DESC = {
 };
 
 const CARE_STEPS = [
-  ['Medical Opinion', 'Get expert medical opinions from top specialists.', 'steth', 'orange'],
-  ['Visa Assistance', 'Hassle-free visa support for a smooth journey.', 'passport', 'blue'],
-  ['Travel Planning', 'Complete travel planning tailored to your needs.', 'airplane', 'purple'],
-  ['Airport Pickup', 'Comfortable and reliable airport pickup services.', 'caroutline', 'cyan'],
-  ['Accommodation', 'Safe and comfortable stay arrangements.', 'carebed', 'amber'],
-  ['Treatment Support', 'End-to-end support during your medical treatment.', 'careheart', 'pink'],
-  ['Follow-up Care', 'Continuous care and assistance after treatment.', 'calendar', 'green'],
-  ['Return & Beyond', 'Guidance and support even after you return home.', 'shield', 'blue']
+  ['Medical Opinion', 'Get expert medical opinions from top specialists.', 'steth', 'fern'],
+  ['Visa Assistance', 'Hassle-free visa support for a smooth journey.', 'passport', 'forest'],
+  ['Travel Planning', 'Complete travel planning tailored to your needs.', 'airplane', 'pine'],
+  ['Airport Pickup', 'Comfortable and reliable airport pickup services.', 'caroutline', 'sage'],
+  ['Accommodation', 'Safe and comfortable stay arrangements.', 'carebed', 'moss'],
+  ['Treatment Support', 'End-to-end support during your medical treatment.', 'careheart', 'deep'],
+  ['Follow-up Care', 'Continuous care and assistance after treatment.', 'calendar', 'leaf'],
+  ['Return & Beyond', 'Guidance and support even after you return home.', 'shield', 'forest']
 ];
 
 const AVATARS = ['/img/avatar-1.png', '/img/avatar-2.png', '/img/avatar-3.png'];
+
+const HERO_H = [{ t: 'Your Trusted Partner for Treatment in India' }];
+const HERO_FEATS = [
+  ['shield', 'One Point of Contact', 'From your first report to safe return home'],
+  ['hospital', 'Expert Hospital Network', 'Top accredited hospitals across India'],
+  ['clipboard', 'Complete Support', 'Visa, travel, stay, treatment & follow-up']
+];
+
+/* real partner hospitals we have photography for: [hospital slug, image, caption] */
+const HOSP_PHOTOS = [
+  ['max-healthcare', 'hospital-max.webp', 'Max Healthcare, New Delhi'],
+  ['medanta-the-medicity', 'hospital-medanta.webp', 'Medanta, Gurugram'],
+  ['blk-max-hospital', 'hospital-blkmax.webp', 'BLK-Max, New Delhi'],
+  ['manipal-hospitals', 'hospital-manipal.webp', 'Manipal Hospitals, Bengaluru']
+];
+
+const PART_H = [{ t: 'India’s Most' }, { t: 'Trusted Hospitals', a: true }];
+const CARE_H = [{ t: 'We Take Care of' }, { t: 'Everything', a: true }];
+const JOUR_H = [{ t: 'A Journey Designed' }, { t: 'Around You', a: true }];
 
 const JOUR_PAGES = 5;
 
@@ -56,13 +76,19 @@ export default function Home() {
     if (el) el.scrollBy({ left: dir * el.clientWidth * 0.75, behavior: 'smooth' });
   };
 
+  /* the cells are 246px on desktop but 190px under 760px, so the step has to be measured */
+  const partStep = (el, cells) => {
+    const c = el.querySelector('.h2plogo');
+    return (c ? c.getBoundingClientRect().width : 246) * cells;
+  };
+
   useEffect(() => {
     const id = setInterval(() => {
       const el = partRef.current;
       if (!el || partHover.current) return;
       const max = el.scrollWidth - el.clientWidth;
       if (el.scrollLeft >= max - 4) el.scrollTo({ left: 0, behavior: 'smooth' });
-      else el.scrollBy({ left: 246, behavior: 'smooth' });
+      else el.scrollBy({ left: partStep(el, 1), behavior: 'smooth' });
     }, 2800);
     return () => clearInterval(id);
   }, []);
@@ -74,7 +100,7 @@ export default function Home() {
         <div className="wrap h2hero__grid">
           <div>
             <span className="h2eye">Medical travel to India</span>
-            <h1>Your Trusted Partner for Treatment in <span>India</span></h1>
+            <LineDrop segs={HERO_H} reverse on="load" step={130} delay={120} />
             <p className="h2hero__lead">High-quality medical care, world-class hospitals and personalised support, all in one place.</p>
             <div className="h2chips">
               <span className="h2chip"><Icon k="hospital" />World-Class Hospitals</span>
@@ -82,18 +108,24 @@ export default function Home() {
               <span className="h2chip"><Icon k="shield" />End-to-End Support</span>
             </div>
             <div className="h2hero__cta">
-              <button className="btn btn--solid" type="button" onClick={open}>Get Free Consultation</button>
-              <L className="h2play" href="stories.html"><i><Icon k="play" /></i>Watch Our Story</L>
+              <button className="btn btn--solid" type="button" onClick={open}>
+                Get Free Consultation
+                <svg className="ic ic--sm h2btn__ar" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+              </button>
+              <L className="h2play" href="stories.html"><i><Icon k="playtri" /></i>Watch Our Story</L>
             </div>
           </div>
           <div className="h2hero__vis">
             <div className="h2hero__photo">
-              <img src="/img/photo-consult.png" alt="An Indian doctor consulting a patient" />
+              <img src="/img/hero-doctor.webp" alt="A doctor reviewing diagnostic results on hospital equipment" />
             </div>
-            <div className="h2stats">
-              <div className="h2stat"><i><Icon k="users" /></i><div><b>3,000+</b><small>Patients Assisted</small></div></div>
-              <div className="h2stat"><i><Icon k="shield" /></i><div><b>Trusted Hospitals</b><small>Across India</small></div></div>
-              <div className="h2stat"><i><Icon k="headset" /></i><div><b>Dedicated Care</b><small>Coordinator</small></div></div>
+            <div className="h2feats">
+              {HERO_FEATS.map(([ic, t, d]) => (
+                <div className="h2feat" key={t}>
+                  <i><Icon k={ic} /></i>
+                  <div><b>{t}</b><small>{d}</small></div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -107,14 +139,14 @@ export default function Home() {
             Patients travel with
             <span className="h2part__line" aria-hidden="true" />
           </p>
-          <h2 className="h2part__title">India&rsquo;s Most <span>Trusted Hospitals</span></h2>
+          <LineDrop className="h2part__title" segs={PART_H} />
         </div>
         <div
           className="h2part__row"
           onMouseEnter={() => { partHover.current = true; }}
           onMouseLeave={() => { partHover.current = false; }}
         >
-          <button className="h2arrow" type="button" aria-label="Previous hospitals" onClick={() => { const el = partRef.current; el && el.scrollBy({ left: -492, behavior: 'smooth' }); }}>
+          <button className="h2arrow" type="button" aria-label="Previous hospitals" onClick={() => { const el = partRef.current; el && el.scrollBy({ left: -partStep(el, 2), behavior: 'smooth' }); }}>
             <svg className="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 6l-6 6 6 6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
           </button>
           <div className="h2part__rail" ref={partRef}>
@@ -131,7 +163,7 @@ export default function Home() {
               ))}
             </div>
           </div>
-          <button className="h2arrow" type="button" aria-label="Next hospitals" onClick={() => { const el = partRef.current; el && el.scrollBy({ left: 492, behavior: 'smooth' }); }}>
+          <button className="h2arrow" type="button" aria-label="Next hospitals" onClick={() => { const el = partRef.current; el && el.scrollBy({ left: partStep(el, 2), behavior: 'smooth' }); }}>
             <svg className="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 6l6 6-6 6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
           </button>
         </div>
@@ -140,7 +172,7 @@ export default function Home() {
       <section className="h4care" aria-labelledby="care-heading">
         <div className="h4care__head">
           <span className="h4pill">Complete care. Zero guesswork.</span>
-          <h2 id="care-heading">We Take Care of <span>Everything</span></h2>
+          <LineDrop id="care-heading" segs={CARE_H} />
           <p>From your first consultation to your safe return home.</p>
         </div>
         <ol className="h4care__grid">
@@ -179,8 +211,8 @@ export default function Home() {
           <p className="h2spec__eye">Care for the cases that matter most</p>
           <h2>Our Treatment Specialties</h2>
           <div className="h2spec__grid">
-            {SITE.treatments.map((t) => (
-              <L className={'h2speccard' + (['heart', 'organ', 'spine'].includes(t.icon) ? ' h2speccard--cy' : '')} key={t.slug} href={'treatments/' + t.slug + '.html'}>
+            {SITE.treatments.map((t, i) => (
+              <L className={'h2speccard' + (['heart', 'organ', 'spine'].includes(t.icon) ? ' h2speccard--cy' : '')} key={t.slug} href={'treatments/' + t.slug + '.html'} style={{ '--i': i }}>
                 <i><Icon k={t.icon} /></i>
                 <div><b>{t.name}</b><p>{t.desc}</p></div>
                 <span className="h2speccard__c">
@@ -195,12 +227,12 @@ export default function Home() {
       {/* ---------- journey cards slider ---------- */}
       <section className="h3jour">
         <svg className="h3jour__deco2" viewBox="0 0 1440 620" fill="none" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-          <path d="M1080 130c90-30 160-10 260-52" stroke="#B9CFE4" strokeWidth="2" strokeDasharray="6 8" strokeLinecap="round" />
-          <path d="M-10 110c80-26 130 6 200-16" stroke="#B9CFE4" strokeWidth="2" strokeDasharray="6 8" strokeLinecap="round" />
-          <path d="M1200 60c0 11-10 21-10 21s-10-10-10-21a10 10 0 1 1 20 0Z" fill="#A9C6E2" />
-          <path d="M1392 170c0 11-10 21-10 21s-10-10-10-21a10 10 0 1 1 20 0Z" fill="#A9C6E2" />
-          <path d="M338 80c0 9-8 17-8 17s-8-8-8-17a8 8 0 1 1 16 0Z" fill="#C4D8EC" />
-          <g fill="#B9CFE4" transform="translate(1250 30) rotate(-12)">
+          <path d="M1080 130c90-30 160-10 260-52" stroke="#8EB69B" strokeWidth="2" strokeDasharray="6 8" strokeLinecap="round" />
+          <path d="M-10 110c80-26 130 6 200-16" stroke="#8EB69B" strokeWidth="2" strokeDasharray="6 8" strokeLinecap="round" />
+          <path d="M1200 60c0 11-10 21-10 21s-10-10-10-21a10 10 0 1 1 20 0Z" fill="#8EB69B" />
+          <path d="M1392 170c0 11-10 21-10 21s-10-10-10-21a10 10 0 1 1 20 0Z" fill="#8EB69B" />
+          <path d="M338 80c0 9-8 17-8 17s-8-8-8-17a8 8 0 1 1 16 0Z" fill="#B4D8BC" />
+          <g fill="#8EB69B" transform="translate(1250 30) rotate(-12)">
             <rect x="0" y="10" width="88" height="11" rx="5.5" />
             <path d="M40 13 20 36h11l22-21Z" />
             <path d="M70 13 60 28h8l11-13Z" />
@@ -209,7 +241,7 @@ export default function Home() {
         </svg>
         <div className="wrap h2c h3jour__head">
           <span className="h4pill"><i aria-hidden="true" />Your journey, simplified<i aria-hidden="true" /></span>
-          <h2>A Journey Designed <span>Around You</span></h2>
+          <LineDrop segs={JOUR_H} />
           <p>A seamless 12-step process designed around your comfort and care.</p>
         </div>
         <div className="h3jour__row">
@@ -220,7 +252,7 @@ export default function Home() {
             <div className="h3jour__track">
               {SITE.steps.map(([label, ic], i) => (
                 i % 2 === 1 ? (
-                  <div className="h3jcard h3jcard--nv" key={label}>
+                  <div className="h3jcard h3jcard--nv" key={label} style={{ '--i': i }}>
                     <span className="h3j__n h3j__n--red">{i + 1}</span>
                     <div className="h3j__ctop">
                       <i><Icon k={ic} /></i>
@@ -229,7 +261,7 @@ export default function Home() {
                     <div className="h3j__cbody"><small>{STEP_DESC[label]}</small></div>
                   </div>
                 ) : (
-                  <div className="h3jcard" key={label}>
+                  <div className="h3jcard" key={label} style={{ '--i': i }}>
                     <span className="h3j__n">{i + 1}</span>
                     <i><Icon k={ic} /></i>
                     <b>{label}</b>
@@ -253,8 +285,13 @@ export default function Home() {
       {/* ---------- hospitals split ---------- */}
       <section className="h2hosp">
         <div className="wrap h2hosp__grid">
-          <div className="h2hosp__photo">
-            <img src="/img/hospital-building.png" alt="A modern partner hospital building in India" loading="lazy" />
+          <div className="h2hosp__photos">
+            {HOSP_PHOTOS.map(([slug, img, cap]) => (
+              <L className="h2hosp__ph" key={slug} href={'hospitals/' + slug + '.html'}>
+                <img src={'/img/' + img} alt={cap} loading="lazy" />
+                <span>{cap}</span>
+              </L>
+            ))}
           </div>
           <div>
             <span className="h2eye">World-class care</span>
@@ -277,7 +314,7 @@ export default function Home() {
           <h2 id="testimonials-heading">Trusted by Patients &amp; Families</h2>
           <div className="h2testi__grid">
             {SITE.testimonials.map((t, i) => (
-              <figure className="h2tcard" key={t.name}>
+              <figure className="h2tcard" key={t.name} style={{ '--i': i }}>
                 <blockquote>{t.quote}</blockquote>
                 <figcaption className="h2tcard__ft">
                   <img src={AVATARS[i % AVATARS.length]} alt="" width="48" height="48" loading="lazy" />

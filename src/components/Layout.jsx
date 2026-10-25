@@ -10,7 +10,8 @@ const REVEAL_SEL = [
   '.hero__copy', '.hero__visual', '.pcard__grid', '.services__in', '.why__grid',
   '.statrow', '.treat__grid li', '.india__photo', '.india__copy', '.stories__grid li',
   '.plan', '.cta__in', '.sechead', '.tl__head', '.tl__row', '.phead', '.pbody',
-  '.pgcards', '.specrow', '.crumbs', '.h3jour', '.h4care'
+  '.pgcards', '.specrow', '.crumbs', '.h3jour', '.h4care',
+  '.h2spec__grid', '.h2testi__grid', '.h2dual__grid', '.h2chips', '.h2hero__cta'
 ].join(', ');
 
 const NAV = [
