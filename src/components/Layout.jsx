@@ -294,7 +294,10 @@ export default function Layout() {
           </div>
         </div>
         <div className="wrap ftr__bar">
-          <p>© {new Date().getFullYear()} CareBridge India. All rights reserved.</p>
+          <div className="ftr__barleft">
+            <p>© {new Date().getFullYear()} CareBridge India. All rights reserved.</p>
+            <p className="ftr__credit"><span aria-hidden="true">·</span> Created by Vaibhav</p>
+          </div>
           <div className="ftr__barlinks">
             <L href="privacy-policy.html">Privacy</L>
             <L href="terms-of-service.html">Terms</L>
